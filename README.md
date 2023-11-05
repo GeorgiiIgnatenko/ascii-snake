@@ -3,7 +3,7 @@
 
 # ascii-snake
 
-Simple snake game with menu and setting. Written on c++ with ncurses.
+Simple snake game with menu and settings. Written on c++ with ncurses.
 
 1. sudo apt update && sudo apt upgrade
 
