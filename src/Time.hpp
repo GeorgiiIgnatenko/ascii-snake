@@ -2,10 +2,7 @@
 
 #include <chrono>
 #include <ctime>
-#include <iostream>
 
-using std::cout;
-using std::endl;
 using std::chrono::duration_cast;
 using std::chrono::milliseconds;
 using std::chrono::seconds;
