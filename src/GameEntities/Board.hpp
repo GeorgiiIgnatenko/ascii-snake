@@ -1,17 +1,20 @@
 #pragma once
+
 #include "Drawable.hpp"
+
+#include "../Time.hpp"
 
 class Board
 {
 public:
     Board()
     {
-        construct(0, 0);
+        construct(0, 0, 300);
     }
 
-    Board(int heigth, int width)
+    Board(int heigth, int width, int speed)
     {
-        construct(heigth, width);
+        construct(heigth, width, speed);
     }
 
     ~Board(){
@@ -43,7 +46,24 @@ public:
 
     chtype getInput()
     {
-        return wgetch(board_win);
+        time_t time_last_input = getMils();
+        int timeout = this->timeout;
+
+        chtype input = wgetch(board_win);
+
+        chtype new_input = ERR;
+
+        setTimeout(0);
+        while(time_last_input + timeout >= getMils()){
+            new_input = wgetch(board_win);
+        }
+
+        setTimeout(timeout);
+
+        if (new_input != ERR)
+            input = new_input;
+
+        return input;
     }
 
     void addBorder()
@@ -66,20 +86,26 @@ public:
         wrefresh(board_win);
     }
 
+    void setTimeout(int timeout) {
+        wtimeout(board_win, timeout);
+        this->timeout = timeout;
+    }
+
 private:
     WINDOW *board_win;
-    int height, width;
+    int height, width, timeout;
 
-    void construct(int height, int width)
+    void construct(int height, int width, int speed)
     {
         int xMax, yMax;
         getmaxyx(stdscr, yMax, xMax);
         this->height = height;
         this->width = width;
+        
 
         board_win = newwin(height, width, (yMax / 2) - (height / 2) + 4, (xMax / 2) - (width / 2));
     
-        wtimeout(board_win, 500);
+        setTimeout(speed);
     }
 
     

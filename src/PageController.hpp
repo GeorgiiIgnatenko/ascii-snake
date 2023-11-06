@@ -28,7 +28,7 @@ public:
             break;
             case 1:
             {
-                SnakeGame *game = new SnakeGame(height, width);
+                SnakeGame *game = new SnakeGame(settingsState);
                 game->start();
                 delete game;
                 refresh();
@@ -56,6 +56,7 @@ public:
             }
         }
     }
+
 
 private:
     int xMax, yMax;

@@ -74,18 +74,18 @@ public:
 
         switch (cur_direction)
         {
-            case down:
-                row++;
-                break;
-            case up:
-                row--;
-                break;
-            case left:
-                col--;
-                break;
-            case right:
-                col++;
-                break;
+        case down:
+            row++;
+            break;
+        case up:
+            row--;
+            break;
+        case left:
+            col--;
+            break;
+        case right:
+            col++;
+            break;
         }
 
         return SnakePiece(row, col);

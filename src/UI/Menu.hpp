@@ -4,27 +4,27 @@ class Menu
 {
 public:
     Menu(int height, int width, int yMax, int xMax)
-    {                                                                                      
+    {
         menu = newwin(height, width, (yMax / 2) - (height / 2) + 4, (xMax / 2) - (width / 2));
         keypad(menu, true);
 
-        std::vector<std::string> logo {
-" _____             _                                      ",
-"/  ___|           | |                                     ",
-"\\ `--. _ __   __ _| | _____    __ _  __ _ _ __ ___   ___  ",
-" `--. \\ '_ \\ / _` | |/ / _ \\  / _` |/ _` | '_ ` _ \\ / _ \\",
-"/\\__/ / | | | (_| |   <  __/ | (_| | (_| | | | | | |  __/ ",
-"\\____/|_| |_|\\__,_|_|\\_\\___|  \\__, |\\__,_|_| |_| |_|\\___|",
-"                               __/ |                      ",
-"                              |___/                       ",
-};
+        std::vector<std::string> logo{
+            " _____             _                                      ",
+            "/  ___|           | |                                     ",
+            "\\ `--. _ __   __ _| | _____    __ _  __ _ _ __ ___   ___  ",
+            " `--. \\ '_ \\ / _` | |/ / _ \\  / _` |/ _` | '_ ` _ \\ / _ \\",
+            "/\\__/ / | | | (_| |   <  __/ | (_| | (_| | | | | | |  __/ ",
+            "\\____/|_| |_|\\__,_|_|\\_\\___|  \\__, |\\__,_|_| |_| |_|\\___|",
+            "                               __/ |                      ",
+            "                              |___/                       ",
+        };
 
         int y = 0;
-        for(std::string line : logo){
-            mvprintw(y, (xMax / 2) - (logo[0].size()/2) + 2, line.c_str());
+        for (std::string line : logo)
+        {
+            mvprintw(y, (xMax / 2) - (logo[0].size() / 2) + 2, line.c_str());
             y++;
         }
-
 
         box(menu, 0, 0);
         mvwprintw(menu, 3, 16, "Menu");
@@ -33,7 +33,8 @@ public:
         refresh();
     }
 
-    ~Menu() {
+    ~Menu()
+    {
         wclear(menu);
         wrefresh(menu);
         delwin(menu);
@@ -75,7 +76,8 @@ public:
                 mvwprintw(menu, 1, 1, "enter!");
                 enterHandler(page);
             }
-            if (active == 1){
+            if (active == 1)
+            {
                 render();
             }
         }
@@ -88,18 +90,17 @@ public:
         case 0:
             *page = 1;
             active = 0;
-            
+
             break;
         case 1:
             *page = 2;
             active = 0;
-            
+
             break;
 
         case 2:
             *page = 3;
             active = 0;
-            
 
             break;
 
@@ -115,6 +116,4 @@ private:
     int active{1};
     WINDOW *menu;
     const char *options[4]{"Play", "Leaderboard", "Settings", "Quit"};
-
-    
 };

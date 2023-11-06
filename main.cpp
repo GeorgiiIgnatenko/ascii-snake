@@ -8,12 +8,12 @@
 
 #include "src/PageController.hpp"
 
-
 int main()
 {
     initscr();
     refresh();
     curs_set(0);
+    noecho();
     keypad(stdscr, true);
 
     PageController controller;

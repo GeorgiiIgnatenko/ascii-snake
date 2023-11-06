@@ -6,14 +6,20 @@
 #include "GameEntities/Board.hpp"
 #include "GameEntities/Snake.hpp"
 
+enum Event
+{
+    standart,
+    appleEvent
+};
+
 class SnakeGame
 {
 public:
-    SnakeGame(int height, int width)
+    SnakeGame(std::array<int, 3> &state) : settingsState(state)
     {
-        this->heigth = height;
-        this->width = width;
-        board = new Board(height, width);
+        initValues();
+
+        board = new Board(height, width, speed);
         board->init();
         srand(time(NULL));
 
@@ -33,12 +39,42 @@ public:
         next = snake.nextHead();
         board->add(next);
         snake.addPiece(next);
+
+        createApple();
     }
 
     ~SnakeGame()
     {
         delete apple;
         delete board;
+    }
+
+    void initValues()
+    {
+        switch (settingsState[0])
+        {
+        case 0:
+            height = 13;
+            width = height * 2.2;
+            break;
+        case 1:
+            height = 17;
+            width = height * 2.2;
+            break;
+        case 2:
+            height = 20;
+            width = height * 2.2;
+            break;
+        }
+        switch (settingsState[1])
+        {
+        case 0:
+            speed = 300;
+            break;
+        case 1:
+            speed = 200;
+            break;
+        }
     }
 
     void start()
@@ -65,33 +101,45 @@ public:
         switch (input)
         {
         case KEY_DOWN:
-            if (next.getY() != heigth - 2 && snake.getDirection() != up && !is_paused)
+        case 's':
+            if (next.getY() != height - 2 && snake.getDirection() != down && snake.getDirection() != up && !is_paused)
             {
                 snake.setDirection(down);
             }
             break;
         case KEY_UP:
-            if (next.getY() != 1 && snake.getDirection() != down && !is_paused)
+        case 'w':
+            if (next.getY() != 1 && snake.getDirection() != up && snake.getDirection() != down && !is_paused)
             {
                 snake.setDirection(up);
             }
             break;
         case KEY_LEFT:
-            if (next.getX() != 1 && snake.getDirection() != right && !is_paused)
+        case 'a':
+            if (next.getX() != 1 && snake.getDirection() != left && snake.getDirection() != right && !is_paused)
             {
                 snake.setDirection(left);
             }
             break;
         case KEY_RIGHT:
-            if (next.getX() != width - 2 && snake.getDirection() != left && !is_paused)
+        case 'd':
+            if (next.getX() != width - 2 && snake.getDirection() != right && snake.getDirection() != left && !is_paused)
             {
                 snake.setDirection(right);
             }
             break;
-        case KEY_BACKSPACE:
+        case 'p':
             is_paused == true ? is_paused = false : is_paused = true;
             break;
         }
+    }
+
+    void createApple()
+    {
+        int y, x;
+        board->getEmptyCoordinates(y, x);
+        apple = new Apple(y, x);
+        board->add(*apple);
     }
 
     void checkColisions()
@@ -103,25 +151,18 @@ public:
 
     void updateState()
     {
-        if (apple == NULL)
-        {
-            int y, x;
-            board->getEmptyCoordinates(y, x);
-            apple = new Apple(y, x);
-            board->add(*apple);
-        }
-
         SnakePiece next = snake.nextHead();
         SnakePiece head = snake.head();
 
         // Collisions with walls
-        if (head.getX() == 0 || head.getX() == width - 1 || head.getY() == 0 || head.getY() == heigth - 1)
+        if (head.getX() == 0 || head.getX() == width - 1 || head.getY() == 0 || head.getY() == height - 1)
         {
             is_paused = 1;
             game_over = 1;
         }
 
-        if (board->getCharAt(next.getY(), next.getX()) == '#'){
+        if (board->getCharAt(next.getY(), next.getX()) == '#')
+        {
             is_paused = 1;
             game_over = 1;
         }
@@ -136,7 +177,9 @@ public:
         else
         {
             delete apple;
-            apple = NULL;
+            createApple();
+            speed -= 5;
+            board->setTimeout(speed);
         }
 
         board->add(next);
@@ -156,9 +199,11 @@ public:
 private:
     bool game_over = false;
     bool is_paused = false;
-    int heigth;
+    int height;
     int width;
+    int speed;
     Snake snake;
     Board *board;
-    Apple *apple{NULL};
+    Apple *apple = NULL;
+    std::array<int, 3> &settingsState;
 };
