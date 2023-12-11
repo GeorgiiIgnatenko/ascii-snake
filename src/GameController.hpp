@@ -102,6 +102,7 @@ public:
         {
         case KEY_DOWN:
         case 's':
+        case 'j':
             if (next.getY() != height - 2 && snake.getDirection() != down && snake.getDirection() != up && !is_paused)
             {
                 snake.setDirection(down);
@@ -109,6 +110,7 @@ public:
             break;
         case KEY_UP:
         case 'w':
+        case 'k':
             if (next.getY() != 1 && snake.getDirection() != up && snake.getDirection() != down && !is_paused)
             {
                 snake.setDirection(up);
@@ -116,6 +118,7 @@ public:
             break;
         case KEY_LEFT:
         case 'a':
+        case 'h':
             if (next.getX() != 1 && snake.getDirection() != left && snake.getDirection() != right && !is_paused)
             {
                 snake.setDirection(left);
@@ -123,6 +126,7 @@ public:
             break;
         case KEY_RIGHT:
         case 'd':
+        case 'l':
             if (next.getX() != width - 2 && snake.getDirection() != right && snake.getDirection() != left && !is_paused)
             {
                 snake.setDirection(right);
@@ -140,13 +144,6 @@ public:
         board->getEmptyCoordinates(y, x);
         apple = new Apple(y, x);
         board->add(*apple);
-    }
-
-    void checkColisions()
-    {
-        // collissions with walls
-        // collissions with apple
-        // collistions with snake
     }
 
     void updateState()

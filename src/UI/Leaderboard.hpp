@@ -26,7 +26,7 @@ public:
 private:
     const char *leaders[3] = {
         "test",
-        "botTestWtf",
-        "me"
+        "test2",
+        "test3"
     };
 };

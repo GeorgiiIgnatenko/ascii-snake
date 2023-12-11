@@ -5,10 +5,6 @@
 
 Simple snake game with menu and settings. Written on c++ with ncurses.
 
-1. sudo apt update && sudo apt upgrade
+1. Clone this repository
 
-2. sudo apt-get install libncurses5-dev libncursesw5-dev
-
-3. Clone this repository
-
-4. Run: make && ./main
+2. Run: make && ./main

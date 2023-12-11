@@ -63,11 +63,11 @@ public:
         while (active == 1)
         {
             int ch = wgetch(menu);
-            if (ch == KEY_UP && selected > 0)
+            if ((ch == KEY_UP || ch == 'w' || ch == 'k') && selected > 0)
             {
                 --selected;
             }
-            else if (ch == KEY_DOWN && selected < 3)
+            else if ((ch == KEY_DOWN || ch == 's' || ch == 'j') && selected < 3)
             {
                 ++selected;
             }
@@ -90,20 +90,15 @@ public:
         case 0:
             *page = 1;
             active = 0;
-
             break;
         case 1:
             *page = 2;
             active = 0;
-
             break;
-
         case 2:
             *page = 3;
             active = 0;
-
             break;
-
         case 3:
             endwin();
             exit(0);

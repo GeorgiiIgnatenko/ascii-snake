@@ -60,19 +60,19 @@ public:
         while (active == 1)
         {
             int ch = wgetch(settings_win);
-            if (ch == KEY_DOWN && selectedRow < 3)
+            if ((ch == KEY_DOWN || ch == 's' || ch  == 'j') && selectedRow < 3)
             {
                 selectedRow++;
             }
-            else if (ch == KEY_UP && selectedRow > 0)
+            else if ((ch == KEY_UP || ch == 'w' || ch == 'k') && selectedRow > 0)
             {
                 selectedRow--;
             }
-            else if (ch == KEY_RIGHT && optionValues[selectedRow].size() > settingsState[selectedRow] + 1 && selectedRow < 3)
+            else if ((ch == KEY_RIGHT || ch == 'd' || ch == 'l') && optionValues[selectedRow].size() > settingsState[selectedRow] + 1 && selectedRow < 3)
             {
                 settingsState[selectedRow]++;
             }
-            else if (ch == KEY_LEFT && settingsState[selectedRow] > 0 && selectedRow < 3)
+            else if ((ch == KEY_LEFT || ch == 'a' || ch == 'h') && settingsState[selectedRow] > 0 && selectedRow < 3)
             {
                 settingsState[selectedRow]--;
             }
